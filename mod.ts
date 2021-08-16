@@ -1,7 +1,9 @@
 import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
-import _ from 'https://deno.land/x/lodash@4.17.19/dist/lodash.js'
-
-const { map, reduce, values } = _
+import {
+  map,
+  reduce,
+  values,
+} from 'https://deno.land/x/lodash@4.17.15-es/lodash.js'
 
 interface IBook {
   id: string
