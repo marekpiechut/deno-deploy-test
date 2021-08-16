@@ -10,25 +10,29 @@ interface IBook {
   title: string
   author: string
 }
-const books = new Map<string, IBook>()
-books.set('1', {
-  id: '1',
-  title: 'The Hound of the Baskervilles',
-  author: 'Conan Doyle, Arthur',
-})
+const books: Record<string, IBook> = {
+  '1': {
+    id: '1',
+    title: 'The Hound of the Baskervilles',
+    author: 'Conan Doyle, Arthur',
+  },
+}
 
 const router = new Router()
 router
   .get('/', context => {
-    const titles = map(values(books), 'title')
-    context.response.body = { titles: reduce(titles, (a, t) => `${a}, ${t}`) }
+    const titles = map(values(books), (book: IBook) => book.title)
+    context.response.body = {
+      titles: reduce(titles, (a: string = 'asd', t: string) => `${a}, ${t}`),
+      bimps: 'bomps',
+    }
   })
   .get('/books', context => {
-    context.response.body = Array.from(books.values())
+    context.response.body = values(books)
   })
   .get('/book/:id', context => {
-    if (context.params && context.params.id && books.has(context.params.id)) {
-      context.response.body = books.get(context.params.id)
+    if (context.params?.id && books[context.params.id]) {
+      context.response.body = books[context.params.id]
     }
   })
   .get('/port', ctx => {
@@ -40,3 +44,4 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 addEventListener('fetch', app.fetchEventHandler())
+// await app.listen('127.0.0.1:9999')
