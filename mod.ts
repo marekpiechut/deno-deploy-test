@@ -1,8 +1,7 @@
 import { Application, Router } from 'https://deno.land/x/oak/mod.ts'
-import {
-  map,
-  reduce,
-} from 'https://deno.land/x/lodash@4.17.19/dist/lodash.min.js'
+import _ from 'https://deno.land/x/lodash@4.17.19/dist/lodash.js'
+
+const { map, reduce, values } = _
 
 interface IBook {
   id: string
@@ -19,7 +18,7 @@ books.set('1', {
 const router = new Router()
 router
   .get('/', context => {
-    const titles = map(books, 'title')
+    const titles = map(values(books), 'title')
     context.response.body = { titles: reduce(titles, (a, t) => `${a}, ${t}`) }
   })
   .get('/books', context => {
